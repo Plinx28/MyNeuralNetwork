@@ -1,2 +1,2 @@
 # MyNeuralNetwork
-My diploma project
+My diploma project!
