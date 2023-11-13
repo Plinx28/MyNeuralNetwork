@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
 from config import NUM_CLASSES, IMAGE_SIZE
 
@@ -12,4 +12,5 @@ model.add(Conv2D(128, (3, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.8))
 model.add(Dense(NUM_CLASSES, activation='softmax'))

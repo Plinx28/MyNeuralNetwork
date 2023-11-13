@@ -13,13 +13,13 @@ def main():
     train_generator = train_data_gen.flow_from_directory(
         directory=DATA_DIR + '/train',
         target_size=IMAGE_SIZE,
-        batch_size=32,
+        batch_size=16,
         class_mode='categorical')
 
     val_generator = val_data_gen.flow_from_directory(
         directory=DATA_DIR + '/val',
         target_size=IMAGE_SIZE,
-        batch_size=32,
+        batch_size=16,
         class_mode='categorical')
 
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -27,7 +27,7 @@ def main():
     history = model.fit_generator(
         generator=train_generator,
         steps_per_epoch=train_generator.n // train_generator.batch_size,
-        epochs=15,
+        epochs=20,
         validation_data=val_generator,
         validation_steps=val_generator.n // val_generator.batch_size)
 
