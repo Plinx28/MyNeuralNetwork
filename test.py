@@ -20,7 +20,7 @@ print(f'Test loss:{test_loss}')
 print(f'Test accuracy:{test_accurancy}')
 
 # for i in range(len(test_generator)):
-#     image = test_generator[i]
+#     image = test_generator[i]ve
     
 #     plot.imshow(image)
 #     plot.axis('off')
