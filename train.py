@@ -1,11 +1,10 @@
-import keras
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam
 
 import matplotlib.pyplot as plot
 
-from config import IMAGE_SIZE, DATA_DIR, BATCH_SIZE, COLOR_MODE, MODEL_NAME 
+from config import IMAGE_SIZE, DATA_DIR, BATCH_SIZE, COLOR_MODE
 from model import model
 
 
@@ -46,14 +45,6 @@ def build_test_generator():
         color_mode=COLOR_MODE)
     
     return test_generator
-
-
-def test():
-    model_loaded = keras.models.load_model(MODEL_NAME)
-
-    accuracy = model_loaded.evaluate(build_test_generator(), verbose=1)
-
-    print(f'Точность на тестовой выборке: {accuracy[1] * 100}%')
 
 
 def main():
