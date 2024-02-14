@@ -1,18 +1,66 @@
+import keras
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam
 
 import matplotlib.pyplot as plot
 
-from config import IMAGE_SIZE, DATA_DIR
+from config import IMAGE_SIZE, DATA_DIR, BATCH_SIZE, COLOR_MODE, MODEL_NAME 
 from model import model
+
+
+def build_train_generator():
+    train_data_gen = ImageDataGenerator(rescale=1./255)
+
+    train_generator = train_data_gen.flow_from_directory(
+        directory=DATA_DIR + '/train',
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='categorical',
+        color_mode=COLOR_MODE)
+    
+    return train_generator
+
+
+def build_val_generator():
+    val_data_gen = ImageDataGenerator(rescale=1./255)
+    
+    val_generator = val_data_gen.flow_from_directory(
+        directory=DATA_DIR + '/val',
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='categorical',
+        color_mode=COLOR_MODE)
+    
+    return val_generator
+
+
+def build_test_generator():
+    test_data_gen = ImageDataGenerator(rescale=1./255)
+    
+    test_generator = test_data_gen.flow_from_directory(
+        directory=DATA_DIR + '/test',
+        target_size=IMAGE_SIZE,
+        batch_size=BATCH_SIZE,
+        class_mode='categorical',
+        color_mode=COLOR_MODE)
+    
+    return test_generator
+
+
+def test():
+    model_loaded = keras.models.load_model(MODEL_NAME)
+
+    accuracy = model_loaded.evaluate(build_test_generator(), verbose=1)
+
+    print(f'Точность на тестовой выборке: {accuracy[1] * 100}%')
 
 
 def main():
     train_generator = build_train_generator()
     val_generator = build_val_generator()
 
-    optimazer = Adam(learning_rate=0.0005)
+    optimazer = Adam(learning_rate=0.001)
     model.compile(optimizer=optimazer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     checkpoint = ModelCheckpoint("model.h5", monitor='val_accuracy', verbose=1, save_best_only=True,
@@ -33,32 +81,6 @@ def main():
     plot.grid(True)
     plot.show()
 
-
-def build_train_generator():
-    train_data_gen = ImageDataGenerator(rescale=1./255)
-
-    train_generator = train_data_gen.flow_from_directory(
-        directory=DATA_DIR + '/train',
-        target_size=IMAGE_SIZE,
-        batch_size=32,
-        class_mode='categorical',
-        color_mode='grayscale')
-    
-    return train_generator
-
-
-def build_val_generator():
-    val_data_gen = ImageDataGenerator(rescale=1./255)
-    
-    val_generator = val_data_gen.flow_from_directory(
-        directory=DATA_DIR + '/val',
-        target_size=IMAGE_SIZE,
-        batch_size=32,
-        class_mode='categorical',
-        color_mode='grayscale')
-    
-    return val_generator
-
-
 if __name__ == '__main__':
     main()
+
