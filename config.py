@@ -32,5 +32,6 @@ BATCH_SIZE = 32
 
 COLOR_MODE = 'grayscale'
 
+# model of trained model
 MODEL_NAME = 'model_9160.h5'
 
