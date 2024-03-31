@@ -1,8 +1,8 @@
-import tensorflow as tf
+# import tensorflow as tf
 import os
 
 # Turn off CUDA
-tf.config.set_visible_devices([], 'GPU')
+# tf.config.set_visible_devices([], 'GPU')
 
 DATA_DIR = 'data'
 """
@@ -21,17 +21,17 @@ This is main data-directory with structure:
         ...
 """
 
-
-TEST_DATA_DIR = os.path.join(DATA_DIR, 'test')
-
 IMAGE_SIZE = (256, 256)
 
 NUM_CLASSES = 3
 
-BATCH_SIZE = 32
+BATCH_SIZE = 128
 
 COLOR_MODE = 'grayscale'
 
 # model of trained model
-MODEL_NAME = 'model_9160.h5'
+MODEL_NAME = 'model.h5'
+PRETRAINED_MODEL = 'model_9160.h5'
+
+# pip3 install --upgrade tensorflow==2.10.0
 
