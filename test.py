@@ -1,6 +1,8 @@
 from keras.models import load_model
 from config import MODEL_NAME
 
+import os
+from config import DATA_DIR
 from train import build_generator
 
 

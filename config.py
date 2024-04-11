@@ -23,12 +23,13 @@ This is main data-directory with structure:
 
 IMAGE_SIZE = (256, 256)
 
-NUM_CLASSES = 3
+NUM_CLASSES = len(os.listdir(os.path.join(DATA_DIR, 'train')))
 
 BATCH_SIZE = 128
 
 COLOR_MODE = 'grayscale'
 
+LEARNING_RATE = 0.001
 # model of trained model
 MODEL_NAME = 'model.h5'
 PRETRAINED_MODEL = 'model_9160.h5'

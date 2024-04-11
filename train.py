@@ -6,9 +6,10 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.optimizers import Adam
 
-import matplotlib.pyplot as plot
+import pandas as pd
+import matplotlib.pyplot as plt
 
-from config import IMAGE_SIZE, DATA_DIR, BATCH_SIZE, COLOR_MODE, MODEL_NAME
+from config import IMAGE_SIZE, DATA_DIR, BATCH_SIZE, COLOR_MODE, MODEL_NAME, LEARNING_RATE
 from model import model
 
 
@@ -32,7 +33,7 @@ def main():
     train_generator = build_generator('train')
     val_generator = build_generator('val')
 
-    optimizer = Adam(learning_rate=0.001)
+    optimizer = Adam(learning_rate=LEARNING_RATE)
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     callbacks = [
@@ -40,7 +41,6 @@ def main():
                         save_weights_only=False, mode='auto'),
         EarlyStopping(monitor='val_accuracy', min_delta=0, patience=5, verbose=1, mode='auto')
         ]
-
 
     history = model.fit(
         x=train_generator,
@@ -56,10 +56,25 @@ def main():
     model.save(model_name_now)
     print(f"Модель была сохранена в файле {model_name_now}")
 
-    plot.plot(history.history['accuracy'], linestyle='dotted')
-    plot.plot(history.history['val_accuracy'])
-    plot.grid(True)
-    plot.show()
+    plt.plot(history.history['accuracy'], linestyle='dotted')
+    plt.plot(history.history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    plt.grid(True)
+    plt.show()
+
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'val'], loc='upper left')
+    
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
+
+    plt.show()
 
 
 if __name__ == '__main__':
